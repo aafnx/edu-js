@@ -11,6 +11,15 @@ const numbers = {
     keyin7: 7,
 }
 
+// использовал оператор && так как код справа от оператора выполнится только в том случае,
+// если слева от оператора будет true
+for (const key in numbers) {
+    numbers[key] >= 3 && console.log(`${key}: ${numbers[key]}`);
+}
+// или
+Object.values(numbers).forEach(number => number >= 3 && console.log(number));
+
+
 // ** Задание 2 **
 // Необходимо из объекта, который лежит в константе `post` вывести значения, к которым приписан комментарий, в консоль.
 
@@ -40,10 +49,12 @@ const post = {
     ],
 };
 
+console.log(`author - ${post.author}; dislikes - ${post.comments[0].rating.dislikes}; userId - ${post.comments[1].userId}; text - ${post.comments[1].text};`)
+
 
 
 // ** Задание 3 **
-// Дан массив`products`, необходимо цену каждого продукта уменьшить на `15%` используя метод`forEach`.
+// Дан массив`products`, необходимо цену каждого продукта уменьшить на `15 % ` используя метод`forEach`.
 
 
 const products = [
@@ -60,6 +71,11 @@ const products = [
         price: 1000,
     },
 ];
+
+// сделал через функцию, так как скидки часто меняются и можно ошибиться в размере скидки
+const calculatePercentSale = (percentSale = 0) => percentSale < 0 || percentSale >= 100 ? 1 : 1 - percentSale / 100;
+products.forEach(product => product.price *= calculatePercentSale(15));
+console.log(products);
 
 
 // ** Задание 4 **
@@ -94,10 +110,26 @@ const products2 = [
     },
 ];
 
+console.log(products2.filter(product => product.photos?.length > 0));
+console.log(products2.sort((product1, product2) => product1.price - product2.price));
+
 // ** Задание 5 **
 // Дано 2 массива
 // Вам необходимо объединить 2 этих массива, чтобы значения первого массива были ключами, а значения второго массива — значениями.
 
-
 const en = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 const ru = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"];
+
+function unionArrayToObject(keyArray, valueArray) {
+    if (keyArray.length !== valueArray.length) {
+        console.error('Массивы не могут быть разной длины, возвращен пустой объект');
+        return {};
+    }
+    const result = {};
+    for (const i in keyArray) {
+        result[keyArray[i]] = valueArray[i];
+    }
+    return result;
+}
+
+console.log(unionArrayToObject(en, ru))
